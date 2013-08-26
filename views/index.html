@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block content %}
+    {% if user %}
+        <p>Logged in as '{{user.displayName}}' using {{user.provider}}</p>
+    {% else %}
+        <p>Hello, Anonymous Coward!</p>
+        <p><a href="/auth/google">Sign In with Google</a></p>
+    {% endif %}
+{% endblock %}

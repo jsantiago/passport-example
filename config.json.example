@@ -1,0 +1,10 @@
+{
+    "baseUrl": "http://localhost",
+    "port": "3000",
+    "mongo": {
+        "uri": "mongodb://localhost/passport_example"
+    },
+    "session": {
+        "secret": "your-session-secret"
+    }
+}

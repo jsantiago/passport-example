@@ -1,0 +1,12 @@
+{
+    "name": "passport-example",
+    "version": "0.0.1",
+    "dependencies": {
+        "consolidate": "0.9.x",
+        "express": "3.3.x",
+        "mongoose": "3.6.x",
+        "passport": "0.1.x",
+        "passport-google": "0.3.x",
+        "swig": "0.14.x"
+    }
+}
