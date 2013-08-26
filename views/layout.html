@@ -3,6 +3,40 @@
     <head>
         <meta charset="utf-8">
         <title>{% block title %}{% endblock %}</title>
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+        <style>
+            *,
+            *:before,
+            *:after {
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
+                text-align: center;
+            }
+
+            .passport a {
+                color: #999;
+                font-size: 48px;
+                margin: 0 5px;
+                text-decoration: none;
+            }
+
+            .passport a.twitter:hover {
+                color: rgb(0,172,237);
+            }
+
+            .passport a.facebook:hover {
+                color: rgb(69,97,157);
+            }
+
+            .passport a.google:hover {
+                color: rgb(211,72,54);
+            }
+        </style>
     </head>
     <body>
         {% block nav %}{% include "nav.html" ignore missing %}{% endblock %}

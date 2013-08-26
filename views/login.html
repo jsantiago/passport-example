@@ -3,7 +3,10 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-    <p><a href="/auth/google">Sign In with Google</a></p>
-    <p><a href="/auth/twitter">Sign In with Twitter</a></p>
-    <p><a href="/auth/facebook">Sign In with Facebook</a></p>
+    <p>Hello, Anonymous Coward!</p>
+    <div class="passport">
+        <a class="google" href="/auth/google"><i class="icon-google-plus-sign"></i></a>
+        <a class="twitter" href="/auth/twitter"><i class="icon-twitter-sign"></i></a>
+        <a class="facebook" href="/auth/facebook"><i class="icon-facebook-sign"></i></a>
+    </div>
 {% endblock %}
