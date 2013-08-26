@@ -5,7 +5,6 @@
 // -----------------------------------------------------------------------------
 var express = require('express');
 var path = require('path');
-var http = require('http');
 var cons = require('consolidate');
 var swig = require('swig');
 
@@ -171,14 +170,9 @@ app.get('/logout', function(req, res){
 });
 
 // Redirect the user to Google for authentication.
-// When complete, Google will redirect the user back to the application at:
-//     /auth/google/return
 app.get('/auth/google', passport.authenticate('google'));
 
 // Google will redirect the user to this URL after authentication.
-// Finish the process by verifying the assertion.
-// If valid, the user will be logged in.
-// Otherwise, authentication has failed.
 app.get('/auth/google/return',
     passport.authenticate('google', {
         successRedirect: '/',
@@ -187,14 +181,9 @@ app.get('/auth/google/return',
 );
 
 // Redirect the user to Twitter for authentication.
-// When complete, Twitter will redirect the user back to the application at
-//   /auth/twitter/callback
 app.get('/auth/twitter', passport.authenticate('twitter'));
 
 // Twitter will redirect the user to this URL after approval.
-// Finish the authentication process by attempting to obtain an access token.
-// If access was granted, the user will be logged in.
-// Otherwise, authentication has failed.
 app.get('/auth/twitter/callback',
     passport.authenticate('twitter', {
         successRedirect: '/',
@@ -203,14 +192,9 @@ app.get('/auth/twitter/callback',
 );
 
 // Redirect the user to Facebook for authentication.
-// When complete, Facebook will redirect the user back to the application at
-//   /auth/facebook/callback
 app.get('/auth/facebook', passport.authenticate('facebook'));
 
 // Facebook will redirect the user to this URL after approval.
-// Finish the authentication process by attempting to obtain an access token.
-// If access was granted, the user will be logged in.
-// Otherwise, authentication has failed.
 app.get('/auth/facebook/callback',
     passport.authenticate('facebook', {
         successRedirect: '/',
@@ -221,6 +205,6 @@ app.get('/auth/facebook/callback',
 // -----------------------------------------------------------------------------
 // Start it up!
 // -----------------------------------------------------------------------------
-http.createServer(app).listen(app.get('port'), function(){
+app.listen(app.get('port'), function(){
     console.log("Express server listening on port " + app.get('port'));
 });
