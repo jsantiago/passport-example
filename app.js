@@ -9,7 +9,30 @@ var cons = require('consolidate');
 var swig = require('swig');
 
 var config = require('./config.json');
-var models = require('./models');
+
+// -----------------------------------------------------------------------------
+// mongo
+// -----------------------------------------------------------------------------
+var mongoose = require('mongoose');
+mongoose.connect(config.mongo.uri);
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, "Connection error:"));
+db.on('open', function(){
+    console.log("Connected to Mongo");
+});
+
+var userProfileSchema = new mongoose.Schema({
+    provider: String,
+    id: String,
+    displayName: String,
+    name: { familyName: String, givenName: String, middleName: String },
+    emails: [{ value: String }],
+    photos: [{ value: String }]
+});
+userProfileSchema.index({ id: 1 });
+
+var UserProfile = mongoose.model('userprofiles', userProfileSchema);
 
 // -----------------------------------------------------------------------------
 // Passport
@@ -25,12 +48,12 @@ passport.use(new GoogleStrategy(
         realm: config.origin
     },
     function(identifier, profile, done){
-        models.UserProfile.findOne({id: identifier}, function(err, user){
+        UserProfile.findOne({id: identifier}, function(err, user){
             if (err) throw err;
             if (!user) {
                 profile.id = identifier;
                 profile.provider = "Google";
-                user = new models.UserProfile(profile);
+                user = new UserProfile(profile);
                 user.save(function(err, user){
                     if (err) throw err;
                     done(err, user);
@@ -50,11 +73,11 @@ passport.use(new TwitterStrategy(
         callbackURL: config.origin + "/auth/twitter/callback"
     },
     function(token, tokenSecret, profile, done) {
-        models.UserProfile.findOne({id: profile.id}, function(err, user){
+        UserProfile.findOne({id: profile.id}, function(err, user){
             if (err) throw err;
             if (!user) {
                 profile.provider = "Twitter";
-                user = new models.UserProfile(profile);
+                user = new UserProfile(profile);
                 user.save(function(err, user){
                     if (err) throw err;
                     done(err, user);
@@ -74,11 +97,11 @@ passport.use(new FacebookStrategy(
         callbackURL: config.origin + "/auth/facebook/callback"
     },
     function(accessToken, refreshToken, profile, done) {
-        models.UserProfile.findOne({id: profile.id}, function(err, user){
+        UserProfile.findOne({id: profile.id}, function(err, user){
             if (err) throw err;
             if (!user) {
                 profile.provider = "Facebook";
-                user = new models.UserProfile(profile);
+                user = new UserProfile(profile);
                 user.save(function(err, user){
                     if (err) throw err;
                     done(err, user);
@@ -96,7 +119,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-    models.UserProfile.findOne({id: id}, function(err, user){
+    UserProfile.findOne({id: id}, function(err, user){
         done(null, user);
     });
 });
