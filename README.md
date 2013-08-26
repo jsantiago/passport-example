@@ -1,4 +1,6 @@
-For more info, see [Passport][1]
+For more info, see [Passport][1].
+
+To use Twitter, create an [application][2].
 
     :::bash
         $ npm install
@@ -8,3 +10,4 @@ For more info, see [Passport][1]
 
 
 [1]: http://passportjs.org/
+[2]: https://dev.twitter.com/
