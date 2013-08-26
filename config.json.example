@@ -6,5 +6,13 @@
     },
     "session": {
         "secret": "your-session-secret"
+    },
+    "twitter": {
+        "consumerKey": "your-consumer-key",
+        "consumerSecret": "your-consumer-secret"
+    },
+    "facebook": {
+        "clientID": "your-app-id",
+        "clientSecret": "your-app-secret"
     }
 }

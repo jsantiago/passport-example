@@ -18,6 +18,7 @@ var models = require('./models');
 var passport = require('passport');
 var GoogleStrategy = require('passport-google').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 
 passport.use(new GoogleStrategy(
     {
@@ -54,6 +55,30 @@ passport.use(new TwitterStrategy(
             if (err) throw err;
             if (!user) {
                 profile.provider = "Twitter";
+                user = new models.UserProfile(profile);
+                user.save(function(err, user){
+                    if (err) throw err;
+                    done(err, user);
+                });
+            }
+            else {
+                done(err, user);
+            }
+        });
+    }
+));
+
+passport.use(new FacebookStrategy(
+    {
+        clientID: config.facebook.clientID,
+        clientSecret: config.facebook.clientSecret,
+        callbackURL: config.baseUrl+':'+config.port+"/auth/facebook/callback"
+    },
+    function(accessToken, refreshToken, profile, done) {
+        models.UserProfile.findOne({id: profile.id}, function(err, user){
+            if (err) throw err;
+            if (!user) {
+                profile.provider = "Facebook";
                 user = new models.UserProfile(profile);
                 user.save(function(err, user){
                     if (err) throw err;
@@ -172,6 +197,22 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 // Otherwise, authentication has failed.
 app.get('/auth/twitter/callback',
     passport.authenticate('twitter', {
+        successRedirect: '/',
+        failureRedirect: '/login'
+    })
+);
+
+// Redirect the user to Facebook for authentication.
+// When complete, Facebook will redirect the user back to the application at
+//   /auth/facebook/callback
+app.get('/auth/facebook', passport.authenticate('facebook'));
+
+// Facebook will redirect the user to this URL after approval.
+// Finish the authentication process by attempting to obtain an access token.
+// If access was granted, the user will be logged in.
+// Otherwise, authentication has failed.
+app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', {
         successRedirect: '/',
         failureRedirect: '/login'
     })
