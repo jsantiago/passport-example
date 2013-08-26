@@ -9,6 +9,7 @@ var cons = require('consolidate');
 var swig = require('swig');
 
 var config = require('./config.json');
+var info = require('./package.json');
 
 // -----------------------------------------------------------------------------
 // mongo
@@ -169,7 +170,9 @@ app.configure('development', function () {
 // -----------------------------------------------------------------------------
 app.get("/", function(req, res){
     var data = {
-        title: "Passport Example"
+        title: "Passport Example",
+        name: info.name,
+        version: info.version
     };
 
     if (req.isAuthenticated()) {
@@ -183,7 +186,12 @@ app.get('/login', function(req, res){
     if (req.isAuthenticated()) {
         res.redirect('/');
     } else {
-        res.render("login");
+        var data = {
+            title: "Login",
+            name: info.name,
+            version: info.version
+        };
+        res.render("login", data);
     }
 });
 

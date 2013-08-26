@@ -1,5 +1,7 @@
-{% if user %}
 <nav>
+{% if user %}
     <a href="/logout">Logout</a>
-</nav>
+{% else %}
+    <span>Hello, Anonymous Coward!</span>
 {% endif %}
+</nav>

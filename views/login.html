@@ -1,9 +1,8 @@
 {% extends 'layout.html' %}
 
-{% block title %}Login{% endblock %}
+{% block title %}{{title}}{% endblock %}
 
 {% block content %}
-    <p>Hello, Anonymous Coward!</p>
     <div class="passport">
         <a title="Sign in using Google" class="google" href="/auth/google"><i class="icon-google-plus-sign"></i></a>
         <a title="Sign in using Twitter" class="twitter" href="/auth/twitter"><i class="icon-twitter-sign"></i></a>

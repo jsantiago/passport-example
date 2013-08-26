@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <title>{% block title %}{% endblock %}</title>
         <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+        <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/2.1.0/normalize.min.css" rel="stylesheet">
         <style>
             *,
             *:before,
@@ -18,11 +19,14 @@
                 text-align: center;
             }
 
+            a {
+                text-decoration: none;
+            }
+
             .passport a {
                 color: #999;
                 font-size: 48px;
                 margin: 0 5px;
-                text-decoration: none;
             }
 
             .passport a.twitter:hover {
@@ -35,6 +39,23 @@
 
             .passport a.google:hover {
                 color: rgb(211,72,54);
+            }
+
+            nav {
+                background-color: #eee;
+                border-bottom: 1px solid #ccc;
+                margin-bottom: 20px;
+                padding: 10px;
+                text-align: right;
+            }
+
+            footer {
+                bottom: 0;
+                font-size: 12px;
+                font-style: italic;
+                padding: 10px;
+                position: absolute;
+                width: 100%;
             }
         </style>
     </head>

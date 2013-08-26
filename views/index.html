@@ -6,7 +6,6 @@
     {% if user %}
         <p>Logged in as '{{user.displayName}}' using {{user.provider}}</p>
     {% else %}
-        <p>Hello, Anonymous Coward!</p>
         <div class="passport">
             <a title="Sign in using Google" class="google" href="/auth/google"><i class="icon-google-plus-sign"></i></a>
             <a title="Sign in using Twitter" class="twitter" href="/auth/twitter"><i class="icon-twitter-sign"></i></a>
