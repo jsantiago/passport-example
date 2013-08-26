@@ -22,8 +22,8 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 
 passport.use(new GoogleStrategy(
     {
-        returnURL: config.baseUrl+':'+config.port+'/auth/google/return',
-        realm: config.baseUrl+':'+config.port+'/'
+        returnURL: config.origin + "/auth/google/return",
+        realm: config.origin
     },
     function(identifier, profile, done){
         models.UserProfile.findOne({id: identifier}, function(err, user){
@@ -48,7 +48,7 @@ passport.use(new TwitterStrategy(
     {
         consumerKey: config.twitter.consumerKey,
         consumerSecret: config.twitter.consumerSecret,
-        callbackURL: config.baseUrl+':'+config.port+"/auth/twitter/callback"
+        callbackURL: config.origin + "/auth/twitter/callback"
     },
     function(token, tokenSecret, profile, done) {
         models.UserProfile.findOne({id: profile.id}, function(err, user){
@@ -72,7 +72,7 @@ passport.use(new FacebookStrategy(
     {
         clientID: config.facebook.clientID,
         clientSecret: config.facebook.clientSecret,
-        callbackURL: config.baseUrl+':'+config.port+"/auth/facebook/callback"
+        callbackURL: config.origin + "/auth/facebook/callback"
     },
     function(accessToken, refreshToken, profile, done) {
         models.UserProfile.findOne({id: profile.id}, function(err, user){
