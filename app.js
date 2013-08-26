@@ -17,6 +17,7 @@ var models = require('./models');
 // -----------------------------------------------------------------------------
 var passport = require('passport');
 var GoogleStrategy = require('passport-google').Strategy;
+var TwitterStrategy = require('passport-twitter').Strategy;
 
 passport.use(new GoogleStrategy(
     {
@@ -29,6 +30,30 @@ passport.use(new GoogleStrategy(
             if (!user) {
                 profile.id = identifier;
                 profile.provider = "Google";
+                user = new models.UserProfile(profile);
+                user.save(function(err, user){
+                    if (err) throw err;
+                    done(err, user);
+                });
+            }
+            else {
+                done(err, user);
+            }
+        });
+    }
+));
+
+passport.use(new TwitterStrategy(
+    {
+        consumerKey: config.twitter.consumerKey,
+        consumerSecret: config.twitter.consumerSecret,
+        callbackURL: config.baseUrl+':'+config.port+"/auth/twitter/callback"
+    },
+    function(token, tokenSecret, profile, done) {
+        models.UserProfile.findOne({id: profile.id}, function(err, user){
+            if (err) throw err;
+            if (!user) {
+                profile.provider = "Twitter";
                 user = new models.UserProfile(profile);
                 user.save(function(err, user){
                     if (err) throw err;
@@ -131,6 +156,22 @@ app.get('/auth/google', passport.authenticate('google'));
 // Otherwise, authentication has failed.
 app.get('/auth/google/return',
     passport.authenticate('google', {
+        successRedirect: '/',
+        failureRedirect: '/login'
+    })
+);
+
+// Redirect the user to Twitter for authentication.
+// When complete, Twitter will redirect the user back to the application at
+//   /auth/twitter/callback
+app.get('/auth/twitter', passport.authenticate('twitter'));
+
+// Twitter will redirect the user to this URL after approval.
+// Finish the authentication process by attempting to obtain an access token.
+// If access was granted, the user will be logged in.
+// Otherwise, authentication has failed.
+app.get('/auth/twitter/callback',
+    passport.authenticate('twitter', {
         successRedirect: '/',
         failureRedirect: '/login'
     })

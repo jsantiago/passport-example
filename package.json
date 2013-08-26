@@ -7,6 +7,7 @@
         "mongoose": "3.6.x",
         "passport": "0.1.x",
         "passport-google": "0.3.x",
+        "passport-twitter": "1.0.x",
         "swig": "0.14.x"
     }
 }
